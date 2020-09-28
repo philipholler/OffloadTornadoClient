@@ -7,6 +7,7 @@ import dk.aau.src.model.UserModel
 import javafx.geometry.Pos
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
 import tornadofx.*
 
 class DashboardScreen : View("Offloading Dashboard"){
@@ -16,7 +17,6 @@ class DashboardScreen : View("Offloading Dashboard"){
 
     override val root = hbox(){
         setPrefSize(1000.0, 700.0)
-
 
         // Left side containing the tableview of jobs assigned
         hbox{
@@ -81,10 +81,6 @@ class DashboardScreen : View("Offloading Dashboard"){
                                 button("Select dir") {
                                     action {
                                         dbController.textFieldValue.value = chooseDirectory("Select Target Directory").toString()
-                                        runAsyncWithProgress {
-                                            dbController.uploadJob(dbController.textFieldValue.value,
-                                                    dbController.selectedHost.value)
-                                        }
                                     }
                                 }
                                 paddingRight = 10
@@ -104,7 +100,14 @@ class DashboardScreen : View("Offloading Dashboard"){
                         paddingTop = 20
                         paddingRight = 15
                         alignment = Pos.BOTTOM_RIGHT
-                        button("Upload Job")
+                        button("Upload Job"){
+                            action {
+                                runAsyncWithProgress {
+                                    dbController.uploadJob(dbController.textFieldValue.value,
+                                            dbController.selectedHost.value)
+                                }
+                            }
+                        }
                     }
                 }
             }

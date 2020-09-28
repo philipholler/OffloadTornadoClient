@@ -8,9 +8,8 @@ import tornadofx.*
 
 class DashboardController: Controller(){
     var jobs = observableListOf(listOf(
-            Job("Photo Analysis", "Started", 0, 5),
-            Job("World peace", "Working", 2, 1),
-            Job("Photoshop Trumps hair", "Done", 15, 15)))
+            Job("World Peace", "Computing", 5, 5)
+    ))
     var hostRange = (0..25).toList().asObservable()
     var selectedHost = SimpleObjectProperty(0)
     var textFieldValue = SimpleStringProperty("Insert path to dir")

@@ -20,7 +20,7 @@ class LoginScreen : View() {
             fieldset(title, labelPosition = Orientation.VERTICAL) {
                 hbox {
                     alignment = Pos.CENTER
-                    label("OFFLOADING"){
+                    label("OFFLOADR"){
                         addClass(Styles.heading)
                         paddingBottom = 20
                     }
