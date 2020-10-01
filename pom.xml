@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>tornadofx-maven-project</artifactId>
+    <groupId>dk.aau.sw711e20</groupId>
+    <artifactId>Offloader-Desktop</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11-ea+19</version>
+            <version>16-ea+2</version>
         </dependency>
     </dependencies>
 
@@ -74,10 +74,10 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <!-- MainClass in mainfest make a executable jar -->
+                    <!-- MainClass in manifest make a executable jar -->
                     <archive>
                         <manifest>
-                            <mainClass>dk/aau/src/app/Main</mainClass>
+                            <mainClass>dk/aau/src/app/MainKt</mainClass>
                         </manifest>
                     </archive>
 
