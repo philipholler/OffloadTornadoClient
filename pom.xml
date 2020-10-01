@@ -31,6 +31,12 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11-ea+19</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,6 +66,34 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
+                    <archive>
+                        <manifest>
+                            <mainClass>dk/aau/src/app/Main</mainClass>
+                        </manifest>
+                    </archive>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

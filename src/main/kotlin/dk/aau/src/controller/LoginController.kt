@@ -9,9 +9,9 @@ import tornadofx.*
 class LoginController: Controller(){
     val statusProperty = SimpleStringProperty("")
     var status by statusProperty
-    val user : UserModel by inject()
+    val user: UserModel by inject()
 
-    val api : Rest by inject()
+    val api: Rest by inject()
 
     init{
         api.baseURI = "https://api.github.com/"
