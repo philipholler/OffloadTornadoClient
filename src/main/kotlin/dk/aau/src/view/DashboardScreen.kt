@@ -5,6 +5,7 @@ import dk.aau.src.controller.LoginController
 import dk.aau.src.model.Job
 import dk.aau.src.model.UserModel
 import javafx.geometry.Pos
+import javafx.scene.control.ChoiceBox
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
@@ -87,8 +88,8 @@ class DashboardScreen : View("Offloading Dashboard"){
                                 minWidth = 80.0
                             }
                             field {
-                                combobox(dbController.selectedHost, dbController.hostRange) {
-                                    makeAutocompletable()
+                                choicebox(dbController.selectedHost, dbController.hostRange) {
+                                    
                                 }
                                 minWidth = 70.0
                                 paddingRight = 10
