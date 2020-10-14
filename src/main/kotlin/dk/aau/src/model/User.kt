@@ -6,7 +6,7 @@ import javax.json.JsonObject
 
 class User : JsonModel{
     val nameProperty = SimpleStringProperty()
-    var name by nameProperty
+    private var name by nameProperty
 
     override fun updateModel(json: JsonObject) {
         with(json){
