@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RUNAPP" type="TORNADOFX_RUNCONFIGURATION" run-type="App" live-views="false" live-stylesheets="false" dump-stylesheets="false">
+    <option name="MAIN_CLASS_NAME" value="dk.aau.src.app.DesktopClient" />
+    <module name="OffloadTornadoClient" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
