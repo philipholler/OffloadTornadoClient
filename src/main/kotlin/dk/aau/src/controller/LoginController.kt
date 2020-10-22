@@ -1,8 +1,9 @@
 package dk.aau.src.controller
 
 import dk.aau.src.model.UserModel
-import dk.aau.src.view.LoginScreen
-import dk.aau.src.view.DashboardScreen
+import dk.aau.src.view.AccountCreationView
+import dk.aau.src.view.LoginScreenView
+import dk.aau.src.view.DashboardView
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
@@ -19,7 +20,7 @@ class LoginController: Controller(){
     fun login(username: String, password: String){
         if(username == "admin" && password == "admin"){
             runLater{
-                find(LoginScreen::class).replaceWith(DashboardScreen::class, sizeToScene = true, centerOnScreen = true)
+                find(LoginScreenView::class).replaceWith(DashboardView::class, sizeToScene = true, centerOnScreen = true)
             }
             return
         }
@@ -33,16 +34,26 @@ class LoginController: Controller(){
         runLater{
             if (response.ok()){
                 user.item = json.toModel()
-                find(LoginScreen::class).replaceWith(DashboardScreen::class, sizeToScene = true, centerOnScreen = true)
+                find(LoginScreenView::class).replaceWith(DashboardView::class, sizeToScene = true, centerOnScreen = true)
             } else {
                 status = json.string("message") ?: "Login failed"
             }
         }
     }
 
+    fun switchToAccountCreation(){
+        // Switch back to login screen
+        runLater{
+            primaryStage.uiComponent<UIComponent>()?.replaceWith(AccountCreationView::class, sizeToScene = true, centerOnScreen = true)
+        }
+
+    }
+
     fun logout(){
         user.item = null
         // Switch back to login screen
-        primaryStage.uiComponent<UIComponent>()?.replaceWith(LoginScreen::class, sizeToScene = true, centerOnScreen = true)
+        runLater{
+            primaryStage.uiComponent<UIComponent>()?.replaceWith(LoginScreenView::class, sizeToScene = true, centerOnScreen = true)
+        }
     }
 }

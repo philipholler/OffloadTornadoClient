@@ -19,5 +19,12 @@ class Styles : Stylesheet() {
             fontWeight = FontWeight.BOLD
             alignment = Pos.CENTER
         }
+        root {
+            prefHeight = 700.px
+            prefWidth = 1000.px
+        }
     }
+
+
 }
+

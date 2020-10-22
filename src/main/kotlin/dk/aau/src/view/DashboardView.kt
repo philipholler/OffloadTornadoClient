@@ -11,7 +11,7 @@ import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import tornadofx.*
 
-class DashboardScreen : View("Offloading Dashboard"){
+class DashboardView : View("Offloading Dashboard"){
     val user: UserModel by inject()
     val loginController: LoginController by inject()
     val dbController: DashboardController by inject()
