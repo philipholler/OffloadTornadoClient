@@ -6,6 +6,7 @@ import dk.aau.src.model.Job
 import dk.aau.src.model.UserModel
 import javafx.geometry.Pos
 import javafx.scene.control.ChoiceBox
+import javafx.scene.control.ContextMenu
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
@@ -31,10 +32,36 @@ class DashboardView : View("Offloading Dashboard"){
                     vGrow = Priority.ALWAYS
                 }
                 readonlyColumn("Job", Job::name)
-                readonlyColumn("Hosts requested", Job::hostsRequested)
-                readonlyColumn("Hosts Assigned", Job::hostsAssigned)
+                readonlyColumn("Workers requested", Job::hostsRequested)
+                readonlyColumn("Workers Assigned", Job::hostsAssigned)
                 readonlyColumn("Status", Job::status)
+                readonlyColumn("Download link", Job::downloadLink)
+
+                contextMenu = ContextMenu().apply {
+                    item("Delete"){
+                        action {
+                            selectedItem?.apply {
+                                dbController.deleteJob(this)
+                            }
+                        }
+                    }
+                    item("Download Result"){
+                        action {
+                            selectedItem?.apply {
+                                dbController.downloadResults(this)
+                            }
+                        }
+                    }
+                    item("Download Job File"){
+                        action {
+                            selectedItem?.apply {
+                                dbController.downloadJobFiles(this)
+                            }
+                        }
+                    }
+                }
             }
+
         }
 
 

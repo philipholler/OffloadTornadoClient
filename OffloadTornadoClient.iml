@@ -66,5 +66,7 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:mac:16-ea+2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:16-ea+2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:mac:16-ea+2" level="project" />
+    <orderEntry type="library" name="Maven: com.github.kittinunf.fuel:fuel:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.kittinunf.result:result:3.1.0" level="project" />
   </component>
 </module>
