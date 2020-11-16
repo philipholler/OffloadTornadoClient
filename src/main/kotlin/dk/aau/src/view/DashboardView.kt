@@ -5,11 +5,9 @@ import dk.aau.src.controller.LoginController
 import dk.aau.src.model.Job
 import dk.aau.src.model.UserModel
 import javafx.geometry.Pos
-import javafx.scene.control.ChoiceBox
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.layout.Priority
-import javafx.scene.paint.Color
 import tornadofx.*
 
 class DashboardView : View("Offloading Dashboard"){
@@ -100,7 +98,7 @@ class DashboardView : View("Offloading Dashboard"){
                     hbox {
                         vbox {
                             // Path to file
-                            textfield(dbController.textFieldValue)
+                            textfield(dbController.uploadPathTextField)
                             prefWidth = 400.0
                             paddingRight = 10
                         }
@@ -108,14 +106,14 @@ class DashboardView : View("Offloading Dashboard"){
                             field {
                                 button("Select dir") {
                                     action {
-                                        dbController.textFieldValue.value = chooseDirectory("Select Target Directory").toString()
+                                        dbController.uploadPathTextField.value = chooseDirectory("Select Target Directory").toString()
                                     }
                                 }
                                 paddingRight = 10
                                 minWidth = 80.0
                             }
                             field {
-                                choicebox(dbController.selectedHost, dbController.hostRange) {
+                                choicebox(dbController.workersRequestedSelected, dbController.workerRange) {
                                     
                                 }
                                 minWidth = 70.0
@@ -131,8 +129,9 @@ class DashboardView : View("Offloading Dashboard"){
                         button("Upload Job"){
                             action {
                                 runAsyncWithProgress {
-                                    dbController.uploadJob(dbController.textFieldValue.value,
-                                            dbController.selectedHost.value)
+                                    dbController.uploadJob(dbController.uploadPathTextField.value,
+                                            dbController.workersRequestedSelected.value)
+
                                 }
                             }
                         }

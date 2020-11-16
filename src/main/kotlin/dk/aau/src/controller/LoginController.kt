@@ -19,6 +19,7 @@ class LoginController: Controller(){
     }
     fun login(username: String, password: String){
         if(username == "admin" && password == "admin"){
+            user.name.set(username)
             runLater{
                 find(LoginScreenView::class).replaceWith(DashboardView::class, sizeToScene = true, centerOnScreen = true)
             }

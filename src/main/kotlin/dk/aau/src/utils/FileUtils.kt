@@ -15,7 +15,6 @@ fun zipDir(directory: String, destPath: String) {
 }
 
 private fun zipFiles(zipOut: ZipOutputStream, sourceFile: File, parentDirPath: String) {
-
     val data = ByteArray(2048)
 
     for (f in sourceFile.listFiles()) {

@@ -1,5 +1,6 @@
 package dk.aau.src.controller
 
+import dk.aau.src.utils.UserAPI
 import dk.aau.src.view.LoginScreenView
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
@@ -15,6 +16,8 @@ class AccountCreationController: Controller(){
 
     fun createAccount(username: String, password: String){
         print("Creating account with username: $username and password: $password... ")
+
+        UserAPI.createUser(username)
 
         runLater() {
             statusProperty.value = "Account with username: $username created successfully..."

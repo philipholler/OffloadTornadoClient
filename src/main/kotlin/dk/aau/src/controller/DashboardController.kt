@@ -1,43 +1,35 @@
 package dk.aau.src.controller
 
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.Method
-import com.github.kittinunf.result.Result;
 import dk.aau.src.model.Job
-import dk.aau.src.utils.zipDir
+import dk.aau.src.model.UserModel
+import dk.aau.src.utils.JobAPI
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
-import java.io.*
-
-val PATH_TO_DOWNLOAD_DIR = System.getProperty("user.home") + File.separator + "Downloads" + File.separator;
-val API_PATH = "http://localhost:8080/jobs"
 
 class DashboardController: Controller(){
     var jobs = observableListOf(listOf(
             Job("0","hej.py.zip", "Computing", 5, 5, "LINK"),
             Job("1","legitjob.txt", "Computing", 5, 5, "LINK")
     ))
-    var hostRange = (1..25).toList().asObservable()
-    var selectedHost = SimpleObjectProperty(1)
-    var textFieldValue = SimpleStringProperty("Insert path to dir")
+    var workerRange = (1..5).toList().asObservable()
+    var workersRequestedSelected = SimpleObjectProperty(1)
+    var uploadPathTextField = SimpleStringProperty("Insert path to dir")
+    val user: UserModel by inject()
 
-    fun uploadJob(pathToJobDir: String, numbOfHostsRequested: Int): Boolean{
+    init {
+        JobAPI.getJobsForUser(username = user.name.value)
+    }
 
-        // Only zip directory, if it not already a zipped
-        if(pathToJobDir.substring(pathToJobDir.length - 4) != ".zip"){
-            // Zip the folder given and save it to the same path
-            zipDir(pathToJobDir, "$pathToJobDir.zip")
-        }
-
-        // POST FILE.... todo
+    fun uploadJob(pathToJobDir: String, workersRequested: Int): Boolean{
+        JobAPI.postJob(pathToJobDir, user.name.value)
 
         // Add job to list for UI
         runLater{
             val name = pathToJobDir.subSequence(pathToJobDir.lastIndexOf('/') + 1, pathToJobDir.length).toString()
-            val job = Job("0", name, "Created", 0, numbOfHostsRequested, "LINK")
+            val job = Job("0", name, "Created", 0, workersRequested, "LINK")
             jobs.add(job)
+            uploadPathTextField.set("Insert path to dir")
         }
         return true
     }
@@ -53,22 +45,6 @@ class DashboardController: Controller(){
     fun downloadJobFiles(job: Job){
         println("Downloading job files for $job")
 
-        val httpAsync = Fuel.get(API_PATH, listOf("name" to job.name, "id" to job.id))
-                .responseString { request, response, result ->
-                    println("Sending http request: $request")
-                    when (result) {
-                        is Result.Failure -> {
-                            val ex = result.getException()
-                            println("HTTP REQUEST FAILED WITH EXCEPTION: $ex")
-                        }
-                        is Result.Success -> {
-                            val data = response.data // This holds the file data
-                            val path = PATH_TO_DOWNLOAD_DIR + job.name
-                            File(path).writeBytes(data)
-                        }
-                    }
-                }
-
-        httpAsync.join()
+        JobAPI.downLoadJobFile(job, user.name.value)
     }
 }
