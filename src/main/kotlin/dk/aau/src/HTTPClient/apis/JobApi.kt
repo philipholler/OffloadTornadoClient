@@ -125,11 +125,11 @@ class JobApi(basePath: kotlin.String = "http://localhost:8080") : ApiClient(base
      * Uploads a job to be computed
      * @param requestedWorkers  
      * @param userCredentials  
-     * @param jobfile  (optional)
+     * @param file  (optional)
      * @return void
      */
-    fun postJob(requestedWorkers: kotlin.Int, userCredentials: UserCredentials, jobfile: kotlin.Array<kotlin.Byte>? = null): Unit {
-        val localVariableBody: kotlin.Any? = mapOf("jobfile" to "$jobfile")
+    fun postJob(requestedWorkers: kotlin.Int, userCredentials: UserCredentials, file: kotlin.Array<kotlin.Byte>? = null): Unit {
+        val localVariableBody: kotlin.Any? = mapOf("file" to "$file")
         val localVariableQuery: MultiValueMap = mapOf("requestedWorkers" to listOf("$requestedWorkers"))
         val localVariableHeaders: kotlin.collections.Map<kotlin.String, kotlin.String> = mapOf("Content-Type" to "multipart/form-data")
         val localVariableConfig = RequestConfig(

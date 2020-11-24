@@ -14,10 +14,10 @@ package io.swagger.client.models
 
 /**
  * 
- * @param jobfile 
+ * @param file 
  */
 data class Body (
 
-    val jobfile: kotlin.Array<kotlin.Byte>? = null
+    val file: kotlin.Array<kotlin.Byte>? = null
 ) {
 }
