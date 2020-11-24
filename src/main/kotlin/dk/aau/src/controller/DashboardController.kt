@@ -5,6 +5,7 @@ import dk.aau.src.utils.zipDir
 import io.swagger.client.apis.JobApi
 import io.swagger.client.models.Job
 import io.swagger.client.models.UserCredentials
+
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
