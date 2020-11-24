@@ -4,6 +4,8 @@ import dk.aau.src.model.UserModel
 import dk.aau.src.view.AccountCreationView
 import dk.aau.src.view.LoginScreenView
 import dk.aau.src.view.DashboardView
+import io.swagger.client.apis.UserApi
+import io.swagger.client.models.UserCredentials
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
@@ -11,35 +13,29 @@ class LoginController: Controller(){
     val statusProperty = SimpleStringProperty("")
     var status by statusProperty
     val user: UserModel by inject()
+    val userAPI: UserApi = UserApi()
 
     val api: Rest by inject()
 
     init{
         api.baseURI = "https://api.github.com/"
     }
-    fun login(username: String, password: String){
-        if(username == "admin" && password == "admin"){
-            user.name.set(username)
+
+    fun login(userCredentials: UserCredentials){
+        try{
+            var response = userAPI.login(userCredentials)
+            user.name.value = response.username
+            user.password.value = response.password
             runLater{
                 find(LoginScreenView::class).replaceWith(DashboardView::class, sizeToScene = true, centerOnScreen = true)
             }
-            return
         }
-
-        runLater{
-            status = ""
-        }
-        api.setBasicAuth(username, password)
-        val response = api.get("user")
-        val json = response.one()
-        runLater{
-            if (response.ok()){
-                user.item = json.toModel()
-                find(LoginScreenView::class).replaceWith(DashboardView::class, sizeToScene = true, centerOnScreen = true)
-            } else {
-                status = json.string("message") ?: "Login failed"
+        catch (e: Exception){
+            runLater {
+                status = "Could not login with given credentials"
             }
         }
+
     }
 
     fun switchToAccountCreation(){

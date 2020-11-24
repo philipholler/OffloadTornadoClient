@@ -2,13 +2,12 @@ package dk.aau.src.view
 
 import dk.aau.src.app.Styles
 import dk.aau.src.controller.LoginController
+import io.swagger.client.models.UserCredentials
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
-import javafx.scene.control.Hyperlink
 import javafx.scene.paint.Color
 import javafx.scene.text.FontWeight
-import javafx.scene.text.TextFlow
 import tornadofx.*
 
 
@@ -58,7 +57,7 @@ class LoginScreenView : View() {
                     maxWidth = TEXTFIELD_WIDTH                                       
                     action {                                                          
                         runAsyncWithProgress {                                        
-                            loginController.login(username.value, password.value)
+                            loginController.login(UserCredentials(username.value, password.value))
                         }                                                             
                     }
                 }

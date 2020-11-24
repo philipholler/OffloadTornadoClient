@@ -1,12 +1,16 @@
 package dk.aau.src.controller
 
-import dk.aau.src.utils.UserAPI
 import dk.aau.src.view.LoginScreenView
+import io.swagger.client.apis.UserApi
+import io.swagger.client.models.UserCredentials
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
+import java.lang.Exception
 
 class AccountCreationController: Controller(){
     val statusProperty = SimpleStringProperty("")
+    var userApi: UserApi = UserApi()
+
     fun goBack(){
         // Switch back to login screen
         runLater {
@@ -17,10 +21,18 @@ class AccountCreationController: Controller(){
     fun createAccount(username: String, password: String){
         print("Creating account with username: $username and password: $password... ")
 
-        UserAPI.createUser(username)
-
-        runLater() {
-            statusProperty.value = "Account with username: $username created successfully..."
+        try{
+            var userCredentials: UserCredentials = userApi.createUser(UserCredentials(username, password))
+            runLater() {
+                statusProperty.value = "Account with username: $username created successfully..."
+            }
         }
+        catch (e: Exception){
+            runLater() {
+                statusProperty.value = "Could not create user with username: $username. Exception occured: ${e.javaClass}"
+            }
+        }
+
+
     }
 }

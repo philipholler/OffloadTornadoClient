@@ -2,8 +2,8 @@ package dk.aau.src.view
 
 import dk.aau.src.controller.DashboardController
 import dk.aau.src.controller.LoginController
-import dk.aau.src.model.Job
 import dk.aau.src.model.UserModel
+import io.swagger.client.models.Job
 import javafx.geometry.Pos
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
@@ -30,10 +30,10 @@ class DashboardView : View("Offloading Dashboard"){
                     vGrow = Priority.ALWAYS
                 }
                 readonlyColumn("Job", Job::name)
-                readonlyColumn("Workers requested", Job::hostsRequested)
-                readonlyColumn("Workers Assigned", Job::hostsAssigned)
+                readonlyColumn("Workers requested", Job::workersRequested)
+                readonlyColumn("Workers Assigned", Job::workersAssigned)
                 readonlyColumn("Status", Job::status)
-                readonlyColumn("Download link", Job::downloadLink)
+                readonlyColumn("Upload time", Job::timestamp)
 
                 contextMenu = ContextMenu().apply {
                     item("Delete"){
