@@ -16,11 +16,14 @@ import com.squareup.moshi.Json
 
 /**
  * 
- * @param imei 
+ * @param jobid 
+ * @param data 
  */
 
-data class DeviceId (
-    @Json(name = "imei")
-    val imei: kotlin.String? = null
+data class JobFiles (
+    @Json(name = "jobid")
+    val jobid: kotlin.Long? = null,
+    @Json(name = "data")
+    val data: kotlin.ByteArray? = null
 )
 

@@ -1,6 +1,8 @@
 package dk.aau.src.controller
 
+import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.ToJson
 import dk.aau.src.model.UserModel
 import dk.aau.src.utils.encodeFileForUpload
 import dk.aau.src.utils.zipDir
@@ -101,7 +103,11 @@ class DashboardController: Controller(){
         try{
             var jobFile = jobAPI.getJobFiles(job.id!!, user.getCredentials())
 
-            File(PATH_TO_DOWNLOAD_DIR + File.separator + job.name!!).writeBytes(jobFile)
+            var bytes = Base64.getDecoder()!!.decode(jobFile.data!!)
+
+            println(bytes.size)
+
+            File(PATH_TO_DOWNLOAD_DIR + File.separator + job.name!!).writeBytes(bytes)
         }
         catch (e: Exception){
             println("Could not download results for job $job")
