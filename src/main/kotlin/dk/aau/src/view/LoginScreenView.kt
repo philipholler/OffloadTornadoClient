@@ -2,12 +2,12 @@ package dk.aau.src.view
 
 import dk.aau.src.app.Styles
 import dk.aau.src.controller.LoginController
-import io.swagger.client.models.UserCredentials
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
 import javafx.scene.text.FontWeight
+import org.openapitools.client.models.UserCredentials
 import tornadofx.*
 
 

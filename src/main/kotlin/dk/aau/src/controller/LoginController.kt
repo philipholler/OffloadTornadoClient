@@ -4,9 +4,11 @@ import dk.aau.src.model.UserModel
 import dk.aau.src.view.AccountCreationView
 import dk.aau.src.view.LoginScreenView
 import dk.aau.src.view.DashboardView
-import io.swagger.client.apis.UserApi
-import io.swagger.client.models.UserCredentials
+
 import javafx.beans.property.SimpleStringProperty
+import org.openapitools.client.apis.UserApi
+import org.openapitools.client.models.DeviceId
+import org.openapitools.client.models.UserCredentials
 import tornadofx.*
 
 class LoginController: Controller(){
@@ -23,7 +25,7 @@ class LoginController: Controller(){
 
     fun login(userCredentials: UserCredentials){
         try{
-            var response = userAPI.login(userCredentials)
+            var response = userAPI.login(userCredentials, DeviceId(""))
             user.name.value = response.username
             user.password.value = response.password
             runLater{

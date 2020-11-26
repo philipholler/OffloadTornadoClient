@@ -3,11 +3,11 @@ package dk.aau.src.view
 import dk.aau.src.controller.DashboardController
 import dk.aau.src.controller.LoginController
 import dk.aau.src.model.UserModel
-import io.swagger.client.models.Job
 import javafx.geometry.Pos
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY
 import javafx.scene.layout.Priority
+import org.openapitools.client.models.Job
 import tornadofx.*
 
 class DashboardView : View("Offloading Dashboard"){
@@ -139,6 +139,11 @@ class DashboardView : View("Offloading Dashboard"){
                 }
             }
         }
+    }
+
+    override fun onDock() {
+        dbController.jobs.clear()
+        super.onDock()
     }
 }
 

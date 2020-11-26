@@ -1,9 +1,9 @@
 package dk.aau.src.controller
 
 import dk.aau.src.view.LoginScreenView
-import io.swagger.client.apis.UserApi
-import io.swagger.client.models.UserCredentials
 import javafx.beans.property.SimpleStringProperty
+import org.openapitools.client.apis.UserApi
+import org.openapitools.client.models.UserCredentials
 import tornadofx.*
 import java.lang.Exception
 

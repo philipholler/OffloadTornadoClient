@@ -1,37 +1,39 @@
 package dk.aau.src.controller
 
+import com.squareup.moshi.JsonAdapter
 import dk.aau.src.model.UserModel
 import dk.aau.src.utils.zipDir
-import io.swagger.client.apis.JobApi
-import io.swagger.client.models.Job
-import io.swagger.client.models.UserCredentials
-
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import org.openapitools.client.apis.JobApi
+import org.openapitools.client.infrastructure.Serializer
+import org.openapitools.client.models.Job
+import org.openapitools.client.models.UserCredentials
 import tornadofx.*
 import java.io.File
-import java.lang.Exception
+
 
 class DashboardController: Controller(){
-    var jobs = observableListOf(listOf(
-            Job()
+    var jobs = observableListOf<Job>(listOf<Job>(
     ))
     var jobAPI: JobApi = JobApi();
     var workerRange = (1..5).toList().asObservable()
     var workersRequestedSelected = SimpleObjectProperty(1)
     var uploadPathTextField = SimpleStringProperty("Insert path to dir")
     val user: UserModel by inject()
+    val adapter: JsonAdapter<Job> = Serializer.moshi.adapter(Job::class.java)
 
     init {
         try{
-            var result = jobAPI.getJobsForUser(UserCredentials(user.name.value, user.password.value))
-            for (r in result){
-                println(r.toString())
+            var jobNewList = getJobsForUserParsed(user.getCredentials())
+
+            runLater{
+                jobs.clear()
+                jobs.addAll(jobNewList)
             }
-            jobs.clear()
-            jobs.addAll(result)
+
         }
-        catch(e: Exception){
+        catch (e: Exception){
             e.printStackTrace()
         }
     }
@@ -50,16 +52,12 @@ class DashboardController: Controller(){
         val userCredentials = UserCredentials(user.name.value, user.password.value)
 
         try {
-            val fileBytes = File(pathToZipFile).readBytes().toTypedArray()
-            jobAPI.postJob(workersRequested, userCredentials, fileBytes)
+            jobAPI.postJob(userCredentials, workersRequested, File(pathToZipFile))
             // Add job to list for UI
             runLater{
-                var result = jobAPI.getJobsForUser(userCredentials)
+                var newJobList = getJobsForUserParsed(user.getCredentials())
                 jobs.clear()
-                jobs.addAll(result)
-                for(r in jobs){
-                    println(r)
-                }
+                jobs.addAll(newJobList)
                 uploadPathTextField.set("Insert path to dir")
             }
             return true
@@ -72,14 +70,66 @@ class DashboardController: Controller(){
     }
 
     fun deleteJob(job: Job){
-        jobs.remove(job)
+        try{
+            jobAPI.deleteJob(job.id!!, UserCredentials(user.name.value, user.password.value))
+            jobs.remove(job)
+        }
+        catch (e: Exception){
+            println("Could not delete job $job")
+        }
     }
 
     fun downloadResults(job: Job){
-        println("Downloading $job")
+        try{
+            var resultFile = jobAPI.getJobResult(job.id!!, user.getCredentials())
+            println("Downloaded result files: $resultFile")
+        }
+        catch (e: Exception){
+            println("Could not download results for job $job")
+        }
     }
 
     fun downloadJobFiles(job: Job){
-        println("Downloading job files for $job")
+        try{
+            println(job.id!!)
+            println(user.getCredentials())
+            var jobFile = jobAPI.getJobFiles(job.id!!, user.getCredentials())
+            println("Downloaded jobfiles files: $jobFile")
+        }
+        catch (e: Exception){
+            println("Could not download results for job $job")
+            println("Exception: ${e.toString()}")
+            println("Message: ${e.message}")
+        }
+    }
+
+    private fun getJobsForUserParsed(userCredentials: UserCredentials): MutableList<Job>{
+        try {
+            var jsonResult = jobAPI.getJobsForUser(userCredentials)
+
+            /* 4.3.1 version
+            var newJobList: MutableList<Job> = mutableListOf()
+            for(v in jsonResult){
+                newJobList.add(v)
+            }*/
+
+            // 5.0.0-beta3 version
+            var newJobList: MutableList<Job> = mutableListOf()
+
+            val length: Int = jsonResult.size
+
+            for (i in 0 until length){
+                var j: Job? = adapter.fromJsonValue(jsonResult[i])
+                if(j != null){
+                    newJobList.add(j)
+                }
+            }
+
+            return newJobList
+        }
+        catch (e: Exception){
+            println("Could not get jobs for user: $userCredentials")
+            return mutableListOf()
+        }
     }
 }
