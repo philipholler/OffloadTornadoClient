@@ -1,8 +1,16 @@
 package dk.aau.src.utils
 
 import java.io.*
+import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+
+fun encodeFileForUpload(path: String): ByteArray{
+    var f = File(path)
+    var encoded = Base64.getEncoder().encodeToString(f.readBytes())
+    return encoded.toByteArray();
+}
+
 
 fun zipDir(directory: String, destPath: String) {
     val sourceFile = File(directory)

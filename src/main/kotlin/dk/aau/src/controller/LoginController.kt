@@ -25,7 +25,7 @@ class LoginController: Controller(){
 
     fun login(userCredentials: UserCredentials){
         try{
-            var response = userAPI.login(userCredentials, DeviceId(""))
+            var response = userAPI.login(userCredentials, DeviceId(null))
             user.name.value = response.username
             user.password.value = response.password
             runLater{
