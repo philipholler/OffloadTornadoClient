@@ -33,21 +33,6 @@ class DashboardController: Controller(){
     val user: UserModel by inject()
     val adapter: JsonAdapter<Job> = Serializer.moshi.adapter(Job::class.java)
 
-    init {
-        try{
-            var jobNewList = getJobsForUserParsed(user.getCredentials())
-
-            runLater{
-                jobs.clear()
-                jobs.addAll(jobNewList)
-            }
-
-        }
-        catch (e: Exception){
-            e.printStackTrace()
-        }
-    }
-
     fun uploadJob(pathToJobDir: String, workersRequested: Int, timeoutInMinutes: Int): Boolean{
         val file = File(pathToJobDir)
         var pathToZipFile = pathToJobDir
@@ -66,9 +51,7 @@ class DashboardController: Controller(){
             jobAPI.postJob(userCredentials, workersRequested, f.name, timeoutInMinutes, encodeFileForUpload(pathToZipFile))
             // Add job to list for UI
             runLater{
-                var newJobList = getJobsForUserParsed(user.getCredentials())
-                jobs.clear()
-                jobs.addAll(newJobList)
+                fetchJobsForUser()
                 uploadPathTextField.set("Insert path to dir")
             }
             return true
@@ -93,7 +76,6 @@ class DashboardController: Controller(){
     fun downloadResults(job: Job){
         try{
             var resultFile = jobAPI.getJobResult(job.id!!, user.getCredentials())
-            println("Downloaded result files: $resultFile")
 
             var bytes = Base64.getDecoder()!!.decode(resultFile.data!!)
 
@@ -110,7 +92,6 @@ class DashboardController: Controller(){
             var jobFile = jobAPI.getJobFiles(job.id!!, user.getCredentials())
 
             var bytes = Base64.getDecoder()!!.decode(jobFile.data!!)
-
 
             File(PATH_TO_DOWNLOAD_DIR + File.separator + job.name!!).writeBytes(bytes)
         }
@@ -148,6 +129,20 @@ class DashboardController: Controller(){
         catch (e: Exception){
             println("Could not get jobs for user: $userCredentials")
             return mutableListOf()
+        }
+    }
+
+    fun fetchJobsForUser(){
+        try{
+            var jobNewList = getJobsForUserParsed(user.getCredentials())
+
+            runLater{
+                jobs.clear()
+                jobs.addAll(jobNewList)
+            }
+        }
+        catch (e: Exception){
+            e.printStackTrace()
         }
     }
 }

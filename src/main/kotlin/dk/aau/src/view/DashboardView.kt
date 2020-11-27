@@ -165,6 +165,7 @@ class DashboardView : View("Offloading Dashboard"){
 
     override fun onDock() {
         dbController.jobs.clear()
+        dbController.fetchJobsForUser()
         super.onDock()
     }
 }
