@@ -26,9 +26,10 @@ class DashboardController: Controller(){
     ))
     var jobAPI: JobApi = JobApi();
     var assignmentAPI: AssignmentApi = AssignmentApi();
-    var workerRange = (1..5).toList().asObservable()
+    var workerRange = (1..10).toList().asObservable()
     var workersRequestedSelected = SimpleObjectProperty(1)
     var uploadPathTextField = SimpleStringProperty("Insert path to dir")
+    var timeoutInMinute = SimpleStringProperty("30")
     val user: UserModel by inject()
     val adapter: JsonAdapter<Job> = Serializer.moshi.adapter(Job::class.java)
 
@@ -47,7 +48,7 @@ class DashboardController: Controller(){
         }
     }
 
-    fun uploadJob(pathToJobDir: String, workersRequested: Int): Boolean{
+    fun uploadJob(pathToJobDir: String, workersRequested: Int, timeoutInMinutes: Int): Boolean{
         val file = File(pathToJobDir)
         var pathToZipFile = pathToJobDir
 
@@ -62,7 +63,7 @@ class DashboardController: Controller(){
 
         try {
             var f = File(pathToZipFile)
-            jobAPI.postJob(userCredentials, workersRequested, f.name, encodeFileForUpload(pathToZipFile))
+            jobAPI.postJob(userCredentials, workersRequested, f.name, timeoutInMinutes, encodeFileForUpload(pathToZipFile))
             // Add job to list for UI
             runLater{
                 var newJobList = getJobsForUserParsed(user.getCredentials())
@@ -93,9 +94,14 @@ class DashboardController: Controller(){
         try{
             var resultFile = jobAPI.getJobResult(job.id!!, user.getCredentials())
             println("Downloaded result files: $resultFile")
+
+            var bytes = Base64.getDecoder()!!.decode(resultFile.data!!)
+
+            File(PATH_TO_DOWNLOAD_DIR + File.separator + "result_" + job.name!!).writeBytes(bytes)
         }
         catch (e: Exception){
             println("Could not download results for job $job")
+            println("Exception ${e} : ${e.message}")
         }
     }
 
@@ -105,7 +111,6 @@ class DashboardController: Controller(){
 
             var bytes = Base64.getDecoder()!!.decode(jobFile.data!!)
 
-            println(bytes.size)
 
             File(PATH_TO_DOWNLOAD_DIR + File.separator + job.name!!).writeBytes(bytes)
         }

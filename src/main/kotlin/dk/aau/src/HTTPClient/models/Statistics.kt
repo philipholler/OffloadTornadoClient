@@ -11,17 +11,19 @@
 */
 package org.openapitools.client.models
 
-import org.openapitools.client.models.JobFiles
 
 import com.squareup.moshi.Json
 
 /**
  * 
- * @param result 
+ * @param didFinish 
+ * @param cpuTime 
  */
 
-data class Jobresult (
-    @Json(name = "result")
-    val result: JobFiles? = null
+data class Statistics (
+    @Json(name = "didFinish")
+    val didFinish: kotlin.Boolean? = null,
+    @Json(name = "cpuTime")
+    val cpuTime: kotlin.Long? = null
 )
 

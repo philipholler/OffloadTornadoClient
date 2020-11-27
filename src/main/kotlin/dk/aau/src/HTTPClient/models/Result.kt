@@ -11,19 +11,23 @@
 */
 package org.openapitools.client.models
 
+import org.openapitools.client.models.Statistics
 
 import com.squareup.moshi.Json
 
 /**
  * 
  * @param jobid 
- * @param jobfile 
+ * @param resultfile 
+ * @param statistics 
  */
 
-data class Assignment (
+data class Result (
     @Json(name = "jobid")
     val jobid: kotlin.Long? = null,
-    @Json(name = "jobfile")
-    val jobfile: kotlin.ByteArray? = null
+    @Json(name = "resultfile")
+    val resultfile: kotlin.ByteArray? = null,
+    @Json(name = "statistics")
+    val statistics: Statistics? = null
 )
 

@@ -123,14 +123,14 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Gets the job result
     * @param jobId Job to query result for 
     * @param userCredentials  
-    * @return kotlin.ByteArray
+    * @return JobFiles
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getJobResult(jobId: kotlin.Long, userCredentials: UserCredentials) : kotlin.ByteArray {
+    fun getJobResult(jobId: kotlin.Long, userCredentials: UserCredentials) : JobFiles {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -140,13 +140,13 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val localVarResponse = request<kotlin.ByteArray>(
+        val localVarResponse = request<JobFiles>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.ByteArray
+            ResponseType.Success -> (localVarResponse as Success<*>).data as JobFiles
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -207,6 +207,7 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @param userCredentials  
     * @param requestedWorkers  
     * @param jobname  
+    * @param timeout  
     * @param body  
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -214,12 +215,13 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun postJob(userCredentials: UserCredentials, requestedWorkers: kotlin.Int, jobname: kotlin.String, body: kotlin.ByteArray) : Unit {
+    fun postJob(userCredentials: UserCredentials, requestedWorkers: kotlin.Int, jobname: kotlin.String, timeout: kotlin.Int, body: kotlin.ByteArray) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
                 put("requestedWorkers", listOf(requestedWorkers.toString()))
                 put("jobname", listOf(jobname.toString()))
+                put("timeout", listOf(timeout.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(

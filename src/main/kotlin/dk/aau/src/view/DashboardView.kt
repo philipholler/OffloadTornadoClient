@@ -112,17 +112,38 @@ class DashboardView : View("Offloading Dashboard"){
                                 paddingRight = 10
                                 minWidth = 80.0
                             }
+
+                        }
+
+                    }
+                    vbox{
+                        paddingTop = 10
+                        alignment = Pos.TOP_LEFT
+                        vbox{
+                            text("Workers:")
                             field {
                                 choicebox(dbController.workersRequestedSelected, dbController.workerRange) {
-                                    
+                                }
+                                minWidth = 70.0
+                                paddingRight = 10
+                            }
+                        }
+                        vbox{
+                            paddingTop = 10
+                            text("Timeout in minutes")
+
+                            field {
+                                textfield(dbController.timeoutInMinute) {
+                                    filterInput { it.controlNewText.isInt() }
                                 }
                                 minWidth = 70.0
                                 paddingRight = 10
                             }
                         }
                     }
+
                     hbox{
-                        maxWidth = 550.0
+                        maxWidth = 485.0
                         paddingTop = 20
                         paddingRight = 15
                         alignment = Pos.BOTTOM_RIGHT
@@ -130,7 +151,8 @@ class DashboardView : View("Offloading Dashboard"){
                             action {
                                 runAsyncWithProgress {
                                     dbController.uploadJob(dbController.uploadPathTextField.value,
-                                            dbController.workersRequestedSelected.value)
+                                            dbController.workersRequestedSelected.value,
+                                            dbController.timeoutInMinute.value.toInt())
 
                                 }
                             }
