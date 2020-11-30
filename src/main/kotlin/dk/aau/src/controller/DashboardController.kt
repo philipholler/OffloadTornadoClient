@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.ToJson
 import dk.aau.src.model.UserModel
 import dk.aau.src.utils.encodeFileForUpload
+import dk.aau.src.utils.zipAll
 import dk.aau.src.utils.zipDir
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
@@ -40,7 +41,7 @@ class DashboardController: Controller(){
         // Only zip directory, if it not already a zipped
         if(file.isDirectory){
             // Zip the folder given and save it to the same path
-            zipDir(pathToJobDir, "$pathToJobDir.zip")
+            zipAll(file, File("$pathToJobDir.zip").outputStream())
             pathToZipFile = "$pathToJobDir.zip"
         }
 
