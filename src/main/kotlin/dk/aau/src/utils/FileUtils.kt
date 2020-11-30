@@ -10,6 +10,13 @@ import java.util.zip.ZipOutputStream
 
 val hasher: Hasher = Hasher()
 
+fun main() {
+    val hej = "bitch"
+    val bytes = hej.toByteArray()
+
+    println(Base64.getEncoder().encode(bytes))
+}
+
 fun checkZipFilesEquality(file1: File, file2: File): Boolean{
     var file1Map = getFileToHashMap(file1)
     var file2Map = getFileToHashMap(file2)

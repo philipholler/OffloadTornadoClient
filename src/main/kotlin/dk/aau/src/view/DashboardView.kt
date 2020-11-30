@@ -30,7 +30,7 @@ class DashboardView : View("Offloading Dashboard"){
                     vGrow = Priority.ALWAYS
                 }
                 readonlyColumn("Job", Job::name)
-                readonlyColumn("Workers requested", Job::workersRequested)
+                readonlyColumn("Workers requested", Job::answersNeeded)
                 readonlyColumn("Workers Assigned", Job::workersAssigned)
                 readonlyColumn("Status", Job::status)
                 readonlyColumn("Upload time", Job::timestamp)

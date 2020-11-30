@@ -205,7 +205,7 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * 
     * Uploads a job to be computed
     * @param userCredentials  
-    * @param requestedWorkers  
+    * @param answersNeeded  
     * @param jobname  
     * @param timeout  
     * @param body  
@@ -215,11 +215,11 @@ class JobApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun postJob(userCredentials: UserCredentials, requestedWorkers: kotlin.Int, jobname: kotlin.String, timeout: kotlin.Int, body: kotlin.ByteArray) : Unit {
+    fun postJob(userCredentials: UserCredentials, answersNeeded: kotlin.Int, jobname: kotlin.String, timeout: kotlin.Int, body: kotlin.ByteArray) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
-                put("requestedWorkers", listOf(requestedWorkers.toString()))
+                put("answersNeeded", listOf(answersNeeded.toString()))
                 put("jobname", listOf(jobname.toString()))
                 put("timeout", listOf(timeout.toString()))
             }
