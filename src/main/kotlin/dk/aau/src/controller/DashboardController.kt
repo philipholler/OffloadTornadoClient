@@ -107,13 +107,6 @@ class DashboardController: Controller(){
         try {
             var jsonResult = jobAPI.getJobsForUser(userCredentials)
 
-            /* 4.3.1 version
-            var newJobList: MutableList<Job> = mutableListOf()
-            for(v in jsonResult){
-                newJobList.add(v)
-            }*/
-
-            // 5.0.0-beta3 version
             var newJobList: MutableList<Job> = mutableListOf()
 
             val length: Int = jsonResult.size

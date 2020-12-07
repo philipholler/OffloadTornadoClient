@@ -1,6 +1,5 @@
 package dk.aau.src.utils
 
-import org.apache.commons.io.FileUtils
 import java.io.*
 import java.lang.StringBuilder
 import java.util.*
@@ -18,8 +17,8 @@ fun main() {
 }
 
 fun checkZipFilesEquality(file1: File, file2: File): Boolean{
-    var file1Map = getFileToHashMap(file1)
-    var file2Map = getFileToHashMap(file2)
+    var file1Map = generateFileNameToContentHashMap(file1)
+    var file2Map = generateFileNameToContentHashMap(file2)
 
     // Check that all keys are contained in both
     if(!file1Map.keys.equals(file2Map.keys)){
@@ -37,7 +36,7 @@ fun checkZipFilesEquality(file1: File, file2: File): Boolean{
     return true
 }
 
-private fun getFileToHashMap(file: File): MutableMap<String, String> {
+private fun generateFileNameToContentHashMap(file: File): MutableMap<String, String> {
     // Result map from file path to hash value
     var resultMap: MutableMap<String, String> = mutableMapOf();
 
@@ -72,7 +71,7 @@ private fun getFileToHashMap(file: File): MutableMap<String, String> {
 
         val hash = hasher.hash(data.toString());
 
-        resultMap.put(key = filePath.substring(filePath.indexOf("/") + 1), value = hash)
+        resultMap.put(key = filePath, value = hash)
 
         zipEntry = zipStream.nextEntry
     }

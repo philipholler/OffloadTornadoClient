@@ -33,6 +33,7 @@ class DashboardView : View("Offloading Dashboard"){
                 readonlyColumn("Workers requested", Job::answersNeeded)
                 readonlyColumn("Workers Assigned", Job::workersAssigned)
                 readonlyColumn("Status", Job::status)
+                readonlyColumn("Confidence level", Job::confidenceLevel)
                 readonlyColumn("Upload time", Job::timestamp)
 
                 contextMenu = ContextMenu().apply {
@@ -73,6 +74,7 @@ class DashboardView : View("Offloading Dashboard"){
                 alignment = Pos.TOP_RIGHT
                 vbox{
                     paddingTop = 5
+                    button("Update table").action(dbController::fetchJobsForUser)
                     label ("Offload Jobs")
                 }
 
