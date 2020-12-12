@@ -17,12 +17,6 @@ class LoginController: Controller(){
     val user: UserModel by inject()
     val userAPI: UserApi = UserApi()
 
-    val api: Rest by inject()
-
-    init{
-        api.baseURI = "https://api.github.com/"
-    }
-
     fun login(userCredentials: UserCredentials){
         try{
             var response = userAPI.login(userCredentials, DeviceId(null))
