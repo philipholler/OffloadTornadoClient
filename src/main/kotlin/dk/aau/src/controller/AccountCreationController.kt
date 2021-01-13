@@ -1,5 +1,6 @@
 package dk.aau.src.controller
 
+import dk.aau.src.app.SERVER_IP
 import dk.aau.src.view.LoginScreenView
 import javafx.beans.property.SimpleStringProperty
 import org.openapitools.client.apis.UserApi
@@ -9,7 +10,7 @@ import java.lang.Exception
 
 class AccountCreationController: Controller(){
     val statusProperty = SimpleStringProperty("")
-    var userApi: UserApi = UserApi()
+    var userApi: UserApi = UserApi(SERVER_IP)
 
     fun goBack(){
         // Switch back to login screen

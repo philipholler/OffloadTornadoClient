@@ -3,7 +3,9 @@ package dk.aau.src.controller
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.ToJson
+import dk.aau.src.app.SERVER_IP
 import dk.aau.src.model.UserModel
+import dk.aau.src.utils.JobAPI
 import dk.aau.src.utils.encodeFileForUpload
 import dk.aau.src.utils.zipAll
 import dk.aau.src.utils.zipDir
@@ -11,6 +13,7 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import org.openapitools.client.apis.AssignmentApi
 import org.openapitools.client.apis.JobApi
+import org.openapitools.client.apis.UserApi
 import org.openapitools.client.infrastructure.Serializer
 import org.openapitools.client.models.Job
 import org.openapitools.client.models.UserCredentials
@@ -25,8 +28,8 @@ class DashboardController: Controller(){
 
     var jobs = observableListOf<Job>(listOf<Job>(
     ))
-    var jobAPI: JobApi = JobApi();
-    var assignmentAPI: AssignmentApi = AssignmentApi();
+    var jobAPI: JobApi = JobApi(SERVER_IP);
+    var assignmentAPI: AssignmentApi = AssignmentApi(SERVER_IP);
     var workerRange = (1..10).toList().asObservable()
     var workersRequestedSelected = SimpleObjectProperty(1)
     var uploadPathTextField = SimpleStringProperty("Insert path to dir")

@@ -1,5 +1,6 @@
 package dk.aau.src.controller
 
+import dk.aau.src.app.SERVER_IP
 import dk.aau.src.model.UserModel
 import dk.aau.src.view.AccountCreationView
 import dk.aau.src.view.LoginScreenView
@@ -15,7 +16,7 @@ class LoginController: Controller(){
     val statusProperty = SimpleStringProperty("")
     var status by statusProperty
     val user: UserModel by inject()
-    val userAPI: UserApi = UserApi()
+    val userAPI: UserApi = UserApi(SERVER_IP)
 
     fun login(userCredentials: UserCredentials){
         try{
